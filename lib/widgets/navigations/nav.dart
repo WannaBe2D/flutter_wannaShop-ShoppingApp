@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wanna_shop/pages/api.dart';
 import 'package:flutter_wanna_shop/pages/home/cart.dart';
 import 'package:flutter_wanna_shop/pages/home/home.dart';
-import 'package:flutter_wanna_shop/pages/home/product_detail.dart';
 import 'package:flutter_wanna_shop/widgets/navigations/side_bar.dart';
 import 'package:flutter_wanna_shop/widgets/navigations/top_bar.dart';
-import 'package:flutter_wanna_shop/widgets/products/product_description.dart';
 
 class Nav extends StatefulWidget {
   const Nav({Key? key}) : super(key: key);
@@ -17,9 +16,9 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    ProductDetail(),
+    Text('mda'),
     Cart(),
-    Text('Profile')
+    ProductsHome(),
   ];
 
   void _onItemTap(int index) {
@@ -43,15 +42,15 @@ class _NavState extends State<Nav> {
       backgroundColor: Colors.white,
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.white,
+        backgroundColor: Colors.white,
+        unselectedItemColor: Colors.black,
+        selectedItemColor: Color.fromRGBO(255, 185, 1, 1),
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_sharp),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(

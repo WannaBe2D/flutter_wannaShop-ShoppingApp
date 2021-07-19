@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wanna_shop/pages/api.dart';
 import 'package:flutter_wanna_shop/widgets/category/home_category.dart';
-import 'package:flutter_wanna_shop/widgets/navigations/top_bar.dart';
-import 'package:flutter_wanna_shop/widgets/products/product.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,7 +26,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: AllProducts(),
+          child: ProductsHome(),
+          //AllProducts()
         ),
       ],
     ));
