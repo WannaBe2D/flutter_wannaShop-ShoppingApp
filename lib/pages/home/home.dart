@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wanna_shop/pages/api.dart';
+import 'package:flutter_wanna_shop/widgets/products/products_home.dart';
 import 'package:flutter_wanna_shop/widgets/category/home_category.dart';
 
 class HomePage extends StatelessWidget {
