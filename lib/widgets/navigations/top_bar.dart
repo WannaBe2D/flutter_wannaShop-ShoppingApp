@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
-import 'package:flutter_wanna_shop/pages/home/product_detail.dart';
+import 'package:flutter_wanna_shop/pages/item_detail/product_detail.dart';
 import 'package:flutter_wanna_shop/widgets/buttons/buttons.dart';
 
 /*class TopBar extends StatelessWidget {

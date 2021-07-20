@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wanna_shop/domain/entity/products.dart';
-import 'package:flutter_wanna_shop/pages/home/product_detail.dart';
+import 'package:flutter_wanna_shop/pages/item_detail/product_detail.dart';
 
 class ProductsGrid extends StatelessWidget {
   final List<ProductItem> productitem;

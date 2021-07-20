@@ -172,10 +172,11 @@ class _ProductDescription extends StatelessWidget {
           ),
           Row(
             children: [
-              _Size(size: "S"),
-              _Size(size: "M"),
-              _Size(size: "M"),
-              _Size(size: "XL"),
+              Expanded(
+                  child: SizedBox(
+                height: 50,
+                child: const _CustomRadio(),
+              ))
             ],
           ),
           SizedBox(
@@ -194,24 +195,57 @@ class _ProductDescription extends StatelessWidget {
   }
 }
 
-class _Size extends StatelessWidget {
-  final String size;
-  const _Size({Key? key, required this.size}) : super(key: key);
+class _CustomRadio extends StatefulWidget {
+  const _CustomRadio({Key? key}) : super(key: key);
 
   @override
+  _CustomRadioState createState() => _CustomRadioState();
+}
+
+class _CustomRadioState extends State<_CustomRadio> {
+  List<String> _size = ['S', 'M', 'L', 'XL'];
+  int selectedIndex = 2;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      alignment: Alignment.center,
-      width: 40,
-      height: 40,
-      child: Text(
-        size,
-        style: TextStyle(fontSize: 24, color: Colors.grey),
+    return Row(
+      children: [
+        _customRadio(_size[0], 0),
+        _customRadio(_size[1], 1),
+        _customRadio(_size[2], 2),
+        _customRadio(_size[3], 3),
+      ],
+    );
+  }
+
+  void changeIndex(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  Widget _customRadio(String text, int index) {
+    return InkWell(
+      onTap: () => changeIndex(index),
+      child: Container(
+        margin: EdgeInsets.only(right: 10),
+        alignment: Alignment.center,
+        width: 40,
+        height: 40,
+        child: Text(
+          text,
+          style: selectedIndex == index
+              ? TextStyle(fontSize: 24, color: Colors.black)
+              : TextStyle(fontSize: 24, color: Colors.grey[600]),
+        ),
+        decoration: BoxDecoration(
+            color: selectedIndex == index
+                ? Color.fromRGBO(255, 185, 5, 1)
+                : Colors.transparent,
+            border: selectedIndex == index
+                ? Border.all(color: Color.fromRGBO(255, 185, 5, 1))
+                : Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(10)),
       ),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(10)),
     );
   }
 }
