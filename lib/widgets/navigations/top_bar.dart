@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
+import 'package:flutter_wanna_shop/pages/auth/login_page.dart';
 import 'package:flutter_wanna_shop/pages/item_detail/product_detail.dart';
 import 'package:flutter_wanna_shop/widgets/buttons/buttons.dart';
 
@@ -88,8 +90,10 @@ class TopBar extends StatelessWidget {
           onPressed: () {
             Scaffold.of(context).openDrawer();
           },
-          child:
-              Icon(Icons.now_widgets_outlined, color: Colors.black, size: 30),
+          child: SvgPicture.asset(
+            'assets/icons/menu.svg',
+          ),
+          //Icon(Icons.now_widgets_outlined, color: Colors.black, size: 30),
           style: ElevatedButton.styleFrom(
               primary: Colors.white,
               minimumSize: Size(40, 40),
@@ -100,8 +104,14 @@ class TopBar extends StatelessWidget {
             children: [
               Container(
                   child: TextButton(
-                onPressed: () {},
-                child: Icon(Icons.search, color: Colors.black, size: 30),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+                child: SvgPicture.asset(
+                  'assets/icons/search.svg',
+                ),
+                //Icon(Icons.search, color: Colors.black, size: 30),
                 style: ElevatedButton.styleFrom(
                     primary: Colors.white,
                     minimumSize: Size(40, 40),
@@ -109,8 +119,15 @@ class TopBar extends StatelessWidget {
               )),
               Container(
                 child: TextButton(
-                  onPressed: () {},
-                  child: Icon(Icons.tune, color: Colors.black, size: 30),
+                  onPressed: () {
+                    /*
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignPage()));*/
+                  },
+                  child: SvgPicture.asset(
+                    'assets/icons/controls.svg',
+                  ),
+                  //Icon(Icons.tune, color: Colors.black, size: 30),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       minimumSize: Size(40, 40),
