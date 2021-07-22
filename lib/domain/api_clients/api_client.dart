@@ -6,7 +6,7 @@ import 'package:flutter_wanna_shop/domain/entity/categories.dart';
 import 'package:flutter_wanna_shop/domain/entity/products.dart';
 
 class ApiClient {
-  final client = HttpClient();
+  final client = http.Client();
 
   /*Future<dynamic> getProducts() async {
     final url = Uri.parse('https://mdatest2.herokuapp.com/api/products/');
@@ -26,7 +26,7 @@ class ApiClient {
 
   Future<dynamic> getProducts() async {
     final url = Uri.parse('https://mdatest2.herokuapp.com/api/products/');
-    final response = await http.get(url);
+    final response = await client.get(url);
     print('Response body: ${response.body}');
     final mda = response.body;
 
@@ -41,7 +41,7 @@ class ApiClient {
 
   Future<dynamic> getCategories() async {
     final url = Uri.parse('https://mdatest2.herokuapp.com/api/categories/');
-    final response = await http.get(url);
+    final response = await client.get(url);
 
     final mda = response.body;
     final json = jsonDecode(mda) as List<dynamic>;
@@ -56,11 +56,23 @@ class ApiClient {
   Future<String> getToken(
       {required String username, required String password}) async {
     var url = Uri.parse('https://mdatest2.herokuapp.com/auth/token');
-    var response = await http
+    var response = await client
         .post(url, body: {'username': username, 'password': password});
 
     final token = jsonDecode(response.body) as Map<String, dynamic>;
-
     return token['token'];
+  }
+
+  Future<int> createUser(
+      {required String email, required String username, required String password}) async {
+    final msg = jsonEncode({'email': email, 'username': username, 'password': password});
+    var url = Uri.parse('https://mdatest2.herokuapp.com/auth/users/');
+    var response = await client
+        .post(url,
+        headers: {"Content-Type": "application/json"},
+        body: msg);
+
+    //final token = jsonDecode(response.body) as Map<String, dynamic>;
+    return response.statusCode;
   }
 }

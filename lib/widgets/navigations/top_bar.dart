@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
 import 'package:flutter_wanna_shop/pages/auth/login_page.dart';
+import 'package:flutter_wanna_shop/pages/auth/sign_page.dart';
 import 'package:flutter_wanna_shop/pages/item_detail/product_detail.dart';
 import 'package:flutter_wanna_shop/widgets/buttons/buttons.dart';
 
@@ -120,9 +121,8 @@ class TopBar extends StatelessWidget {
               Container(
                 child: TextButton(
                   onPressed: () {
-                    /*
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignPage()));*/
+                        MaterialPageRoute(builder: (context) => SignPage()));
                   },
                   child: SvgPicture.asset(
                     'assets/icons/controls.svg',

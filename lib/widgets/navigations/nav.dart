@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wanna_shop/token/token.dart';
 import 'package:flutter_wanna_shop/widgets/products/products_home.dart';
 import 'package:flutter_wanna_shop/pages/Cart/cart.dart';
 import 'package:flutter_wanna_shop/pages/home/home.dart';
@@ -16,7 +17,9 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text('mda'),
+    ElevatedButton(onPressed: (){
+      Token().readToken();
+    }, child: Text('Token')),
     Cart(),
     ProductsHome(),
   ];
