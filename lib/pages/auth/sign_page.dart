@@ -185,8 +185,6 @@ class __SignFieldState extends State<_SignField> {
                       .then((int code) {
                     if (code == 201) {
                       Navigator.of(context).pop();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
                     }
                   });
                 }

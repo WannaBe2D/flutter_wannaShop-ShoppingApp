@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
+import 'package:flutter_wanna_shop/pages/auth/login_page.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ProductDetail extends StatelessWidget {
   final List<String> images;
+  final int id;
   final String name;
   final String price;
   final String description;
   const ProductDetail(
       {Key? key,
       required this.images,
+      required this.id,
       required this.name,
       required this.price,
       required this.description})
@@ -36,9 +42,23 @@ class ProductDetail extends StatelessWidget {
         description: description,
       ),
       floatingActionButton: InkWell(
+        onTap: () async {
+          var box = await Hive.openBox('tokenBox');
+          var token = box.get('token');
+          if (token != null) {
+            await ApiClient().addCart(id: id, token: token).then((code) {
+              if (code == 200) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Product Adds To Cart')));
+              }
+            });
+          } else {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => LoginPage()));
+          }
+        },
         splashColor: Colors.transparent,
         highlightColor: Colors.grey[200],
-        onTap: () {},
         child: Container(
             margin: EdgeInsets.all(16),
             decoration: BoxDecoration(

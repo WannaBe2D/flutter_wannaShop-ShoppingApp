@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -63,6 +66,17 @@ class SideBar extends StatelessWidget {
                   ],
                 ),
               ),
+              ElevatedButton(
+                  onPressed: () async {
+                    var box = await Hive.openBox('tokenBox');
+                    var token = box.get('token');
+                    print(token);
+                    if (token != null) {
+                      await ApiClient().logout(token: token);
+                      box.delete('token');
+                    }
+                  },
+                  child: Text('Logout'))
             ],
           )),
     );

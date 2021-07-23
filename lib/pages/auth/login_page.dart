@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
 import 'package:flutter_wanna_shop/pages/auth/sign_page.dart';
 import 'package:flutter_wanna_shop/token/token.dart';
-import 'package:hive/hive.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -72,12 +71,10 @@ class LoginPage extends StatelessWidget {
                   ),
                   Center(
                       child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignPage()));
-                        },
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => SignPage()));
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -129,90 +126,94 @@ class __LoginFieldState extends State<_LoginField> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+        key: _formKey,
         child: Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey))),
-          child: TextFormField(//[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+
-            validator: (value) {
-              if (value == null ||!RegExp(r"^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$").hasMatch(value)){
-                return 'Please enter valid username';
-              }
-              return null;
-            },
-            onChanged: _changeEmail,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              icon: SvgPicture.asset('assets/icons/user.svg'),
-              hintText: 'Username',
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 24,
-        ),
-        Container(
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey))),
-          child: TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            onChanged: _changePassword,
-            obscureText: true,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              icon: SvgPicture.asset('assets/icons/password.svg'),
-              hintText: 'Password',
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () async {
-            if (_formKey.currentState!.validate()) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text('Processing Data')));
-              try{
-                await ApiClient().getToken(username: _username, password: _password).then((String result){
-                  if(result != null){
-                    Token().writeToken(value: result);
-                    Navigator.of(context).pop();
-                  }
-                });
-              }catch(error){
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('email or password are incorrect')));
-              }
-            }
-          },
-          child: Container(
-              margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
+          children: [
+            Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Color.fromRGBO(255, 185, 5, 1)),
-              alignment: Alignment.center,
-              height: 60,
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Login',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ],
-              )),
-        )
-      ],
-    ));
+                  border: Border(bottom: BorderSide(color: Colors.grey))),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null ||
+                      !RegExp(r"^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$")
+                          .hasMatch(value)) {
+                    return 'Please enter valid username';
+                  }
+                  return null;
+                },
+                onChanged: _changeEmail,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: SvgPicture.asset('assets/icons/user.svg'),
+                  hintText: 'Username',
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey))),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                onChanged: _changePassword,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: SvgPicture.asset('assets/icons/password.svg'),
+                  hintText: 'Password',
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () async {
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  try {
+                    await ApiClient()
+                        .getToken(username: _username, password: _password)
+                        .then((String result) {
+                      if (result != null) {
+                        Token().writeToken(value: result);
+                        Navigator.of(context).pop();
+                      }
+                    });
+                  } catch (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('email or password are incorrect')));
+                  }
+                }
+              },
+              child: Container(
+                  margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Color.fromRGBO(255, 185, 5, 1)),
+                  alignment: Alignment.center,
+                  height: 60,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Login',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                    ],
+                  )),
+            )
+          ],
+        ));
   }
 }
 

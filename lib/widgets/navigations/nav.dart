@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wanna_shop/token/token.dart';
+import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
+import 'package:flutter_wanna_shop/widgets/products/products_cart.dart';
 import 'package:flutter_wanna_shop/widgets/products/products_home.dart';
-import 'package:flutter_wanna_shop/pages/Cart/cart.dart';
 import 'package:flutter_wanna_shop/pages/home/home.dart';
 import 'package:flutter_wanna_shop/widgets/navigations/side_bar.dart';
 import 'package:flutter_wanna_shop/widgets/navigations/top_bar.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Nav extends StatefulWidget {
   const Nav({Key? key}) : super(key: key);
@@ -17,10 +19,14 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    ElevatedButton(onPressed: (){
-      Token().readToken();
-    }, child: Text('Token')),
-    Cart(),
+    ProductsCart(),
+    ElevatedButton(
+        onPressed: () async {
+          var box = await Hive.openBox('tokenBox');
+          var mda = box.get('token');
+          ApiClient().addCart(id: 1, token: mda);
+        },
+        child: Text('Token')),
     ProductsHome(),
   ];
 

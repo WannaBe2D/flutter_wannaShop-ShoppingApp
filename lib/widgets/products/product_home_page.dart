@@ -25,6 +25,7 @@ class ProductsGrid extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ProductDetail(
+                            id: productitem[index].id,
                             name: productitem[index].name,
                             price: productitem[index].price,
                             description: productitem[index].description,
