@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_wanna_shop/domain/entity/cart_item.dart';
 import 'package:flutter_wanna_shop/domain/entity/products.dart';
@@ -22,9 +21,13 @@ class Cart extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     itemCount: productitem.length,
                     itemBuilder: (BuildContext context, int index) {
+                      var _currentImage = [];
+                      productitem[index].image.map((e) {
+                        if (e.indexOf('01') != -1) _currentImage.add(e);
+                      }).toList();
                       return _CartItem(
                         name: productitem[index].name,
-                        image: productitem[index].image.reversed.elementAt(1),
+                        image: _currentImage[0],
                       );
                     }),
               ),

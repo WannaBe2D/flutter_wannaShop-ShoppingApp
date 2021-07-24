@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
-import 'package:flutter_wanna_shop/domain/entity/cart_item.dart';
-import 'package:flutter_wanna_shop/domain/entity/products.dart';
 import 'package:flutter_wanna_shop/pages/Cart/cart.dart';
+import 'package:flutter_wanna_shop/pages/auth/login_page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -32,6 +31,9 @@ class _ProductsCartState extends State<ProductsCart> {
       setState(() {
         isLoading = false;
       });
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
   }
 

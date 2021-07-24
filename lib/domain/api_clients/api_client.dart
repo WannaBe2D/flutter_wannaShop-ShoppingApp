@@ -125,6 +125,21 @@ class ApiClient {
     return products;
   }
 
+  Future<dynamic> getCategoryItems({required int id}) async {
+    var url = Uri.parse('https://mdatest2.herokuapp.com/api/categories/$id/');
+    var response = await client.get(url);
+
+    client.close();
+    final mda = jsonDecode(response.body) as Map<String, dynamic>;
+
+    final products = mda['products']
+        .map((e) => ProductItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+    print(products);
+
+    return products;
+  }
+
   Future<int> logout({
     required String token,
   }) async {

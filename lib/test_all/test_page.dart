@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
+import 'package:flutter_wanna_shop/domain/entity/products.dart';
 import 'package:flutter_wanna_shop/widgets/products/product_home_page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class TestAll extends StatelessWidget {
+  const TestAll({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: DataOwnerStatefullState());
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: DataOwnerStatefullState(),
+    );
   }
 }
 
@@ -28,17 +32,17 @@ class _DataOwnerStatefullStateState extends State<DataOwnerStatefullState> {
   @override
   void initState() {
     super.initState();
-    _basicValue();
+    _increment();
   }
 
-  void _basicValue() async {
+  void _increment() async {
     _value = await ApiClient().getCategories();
     _prod = await ApiClient().getProducts();
     isLoading = false;
     setState(() {});
   }
 
-  void _currentCategoryItems() async {
+  void _mda() async {
     _prod = await ApiClient().getCategoryItems(id: _currentId);
     setState(() {});
   }
@@ -71,7 +75,7 @@ class _DataOwnerStatefullStateState extends State<DataOwnerStatefullState> {
                                 _currentId = _value[index].id;
                               });
 
-                              _currentCategoryItems();
+                              _mda();
                             },
                             child: Text(
                               _value[index].name,
@@ -129,3 +133,4 @@ class _MyProdState extends State<MyProd> {
     return ProductsGrid(productitem: value);
   }
 }
+*/

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
+import 'package:flutter_wanna_shop/test_all/test_page.dart';
 import 'package:flutter_wanna_shop/widgets/products/products_cart.dart';
 import 'package:flutter_wanna_shop/widgets/products/products_home.dart';
 import 'package:flutter_wanna_shop/pages/home/home.dart';
@@ -27,7 +28,7 @@ class _NavState extends State<Nav> {
           ApiClient().addCart(id: 1, token: mda);
         },
         child: Text('Token')),
-    ProductsHome(),
+    Text('Mda'),
   ];
 
   void _onItemTap(int index) {

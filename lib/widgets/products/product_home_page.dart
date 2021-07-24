@@ -3,7 +3,7 @@ import 'package:flutter_wanna_shop/domain/entity/products.dart';
 import 'package:flutter_wanna_shop/pages/item_detail/product_detail.dart';
 
 class ProductsGrid extends StatelessWidget {
-  final List<ProductItem> productitem;
+  final List<dynamic> productitem;
   const ProductsGrid({Key? key, required this.productitem}) : super(key: key);
 
   @override
