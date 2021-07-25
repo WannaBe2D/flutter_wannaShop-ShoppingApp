@@ -33,39 +33,6 @@ class SideBar extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                child: Row(
-                  children: [
-                    Icon(Icons.account_box),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Text('Sneakers')
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Icon(Icons.account_box),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Text('Sneakers')
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Icon(Icons.account_box),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Text('Sneakers')
-                  ],
-                ),
-              ),
               ElevatedButton(
                   onPressed: () async {
                     var box = await Hive.openBox('tokenBox');

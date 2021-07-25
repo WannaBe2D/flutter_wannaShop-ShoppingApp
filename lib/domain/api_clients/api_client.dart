@@ -125,6 +125,23 @@ class ApiClient {
     return products;
   }
 
+  Future<dynamic> deleteItemCart(
+      {required String token, required int id}) async {
+    var url =
+        Uri.parse('https://mdatest2.herokuapp.com/api/remove_item_in_basket/');
+    var itemId = jsonEncode({'id': id});
+    var response = await client.delete(url,
+        headers: {
+          "Authorization": "Token ${token}",
+          "Content-Type": "application/json"
+        },
+        body: itemId);
+
+    client.close();
+
+    return response.statusCode;
+  }
+
   Future<dynamic> getCategoryItems({required int id}) async {
     var url = Uri.parse('https://mdatest2.herokuapp.com/api/categories/$id/');
     var response = await client.get(url);

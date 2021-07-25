@@ -106,8 +106,8 @@ class TopBar extends StatelessWidget {
               Container(
                   child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  /*Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));*/
                 },
                 child: SvgPicture.asset(
                   'assets/icons/search.svg',
@@ -121,8 +121,8 @@ class TopBar extends StatelessWidget {
               Container(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignPage()));
+                    /* Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignPage()));*/
                   },
                   child: SvgPicture.asset(
                     'assets/icons/controls.svg',

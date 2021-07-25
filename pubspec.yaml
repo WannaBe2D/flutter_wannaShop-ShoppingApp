@@ -28,6 +28,7 @@ dependencies:
   http: ^0.13.3
   hive: ^2.0.4
   hive_flutter: ^1.1.0
+  provider: ^5.0.0
 
 
 
@@ -68,6 +69,8 @@ flutter:
     - assets/icons/google.svg
     - assets/icons/facebook.svg
     - assets/icons/apple.svg
+    - assets/images/inDevelopment.png
+    - assets/images/inDevelopment2.webp
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
