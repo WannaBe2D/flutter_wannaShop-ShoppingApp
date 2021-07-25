@@ -10,6 +10,10 @@ class CartProvider extends ChangeNotifier {
   List<dynamic> get products => _products;
   bool get isLoading => _isLoading;
 
+  CartProvider(){
+    initProducts();
+  }
+
   void initProducts() async {
     var box = await Hive.openBox('tokenBox');
     var token = box.get('token');
@@ -24,11 +28,9 @@ class CartProvider extends ChangeNotifier {
     var box = await Hive.openBox('tokenBox');
     var token = box.get('token');
     if (token != null) {
-      await ApiClient().deleteItemCart(token: token, id: id);
+      ApiClient().deleteItemCart(token: token, id: id);
       _products.remove(item);
     }
     notifyListeners();
   }
-
-  void dispose() {}
 }

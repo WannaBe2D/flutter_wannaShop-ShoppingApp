@@ -1,12 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_wanna_shop/domain/api_clients/api_client.dart';
-import 'package:flutter_wanna_shop/domain/entity/cart_item.dart';
-import 'package:flutter_wanna_shop/domain/entity/products.dart';
 import 'package:flutter_wanna_shop/pages/Cart/provider/cart_provier.dart';
-import 'package:flutter_wanna_shop/widgets/products/products_cart.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class Cart extends StatelessWidget {
@@ -16,7 +10,10 @@ class Cart extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => CartProvider())],
-      child: _CartItem(),
+      child: Scaffold(
+      backgroundColor: Colors.grey[200],
+        body: _CartItem(),
+      ),
     );
   }
 }
@@ -30,63 +27,53 @@ class _CartItem extends StatefulWidget {
 
 class __CartItemState extends State<_CartItem> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    context.read<CartProvider>().initProducts();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: context.watch<CartProvider>().isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Column(
-              children: [
-                Expanded(
-                    child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: context.watch<CartProvider>().products.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        print(context
-                            .watch<CartProvider>()
-                            .products[index]
-                            .price);
-                        var _currentImage = [];
-                        context
-                            .watch<CartProvider>()
-                            .products[index]
-                            .image
-                            .map((e) {
-                          if (e.indexOf('01') != -1) _currentImage.add(e);
-                        }).toList();
-                        return _Product(
-                          name: context
-                              .watch<CartProvider>()
-                              .products[index]
-                              .name,
-                          image: _currentImage[0],
-                          id: context.watch<CartProvider>().products[index].id,
-                        );
-                      }),
-                ))
-              ],
-            ),
-    );
+    return context.watch<CartProvider>().isLoading ?
+    Center(child: CircularProgressIndicator())
+        :
+    Column(children: [
+      Expanded(child: SingleChildScrollView(
+    physics: BouncingScrollPhysics(),
+        child:
+        ListView.builder(
+            physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: context.watch<CartProvider>().products.length,
+            itemBuilder: (BuildContext context, int index){
+              var _currentProduct = context.watch<CartProvider>().products[index];
+              var _currentImage = [];
+              context
+                  .watch<CartProvider>()
+                  .products[index]
+                  .image
+                  .map((e) {
+                if (e.indexOf('01') != -1) _currentImage.add(e);
+              }).toList();
+          return _ProductDescription(
+              index: index,
+              id: _currentProduct.id,
+              name: _currentProduct.name,
+              price: _currentProduct.price,
+              image: _currentImage[0]);
+        }),)),
+      _Info()
+    ],);
   }
 }
 
-class _Product extends StatelessWidget {
-  final String name;
-  final String image;
+class _ProductDescription extends StatelessWidget {
+  final int index;
   final int id;
-  const _Product(
-      {Key? key, required this.name, required this.image, required this.id})
-      : super(key: key);
+  final String name;
+  final double price;
+  final String image;
+  const _ProductDescription({Key? key,
+    required this.index,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.image
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +105,7 @@ class _Product extends StatelessWidget {
                       children: [
                         Text(name),
                         Text(
-                          'Price: \$150',
+                          'Price: \$$price',
                           style: TextStyle(color: Colors.grey, fontSize: 13),
                         ),
                         Text('Size: Large',
@@ -128,37 +115,6 @@ class _Product extends StatelessWidget {
                         SizedBox(
                           height: 24,
                         ),
-                        /*Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 16),
-                              alignment: Alignment.center,
-                              height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                              ),
-                            ),
-                            Text('1'),
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              alignment: Alignment.center,
-                              height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                              ),
-                            )
-                          ],
-                        )*/
                         SizedBox(
                           height: 22,
                         )
@@ -169,7 +125,9 @@ class _Product extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  context.read<CartProvider>().deleteProduct(id, id);
+                  context.read<CartProvider>().deleteProduct(id,
+                      context.read<CartProvider>().products[index]
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -186,47 +144,15 @@ class _Product extends StatelessWidget {
   }
 }
 
-/*class Cart extends StatelessWidget {
-  final List<dynamic> productitem;
-  const Cart({Key? key, required this.productitem}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.grey[200],
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: productitem.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var _currentImage = [];
-                      productitem[index].image.map((e) {
-                        if (e.indexOf('01') != -1) _currentImage.add(e);
-                      }).toList();
-                      return _CartItem(
-                        name: productitem[index].name,
-                        image: _currentImage[0],
-                        id: productitem[index].id,
-                      );
-                    }),
-              ),
-            ),
-            _Info()
-          ],
-        ));
-  }
-}*/
-
 class _Info extends StatelessWidget {
   const _Info({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var _mda = 0.0;
+    context.watch<CartProvider>().products.map((e) => {
+      _mda = _mda + e.price
+    });
     return Container(
       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
       decoration: BoxDecoration(
@@ -240,7 +166,7 @@ class _Info extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Total', style: TextStyle(color: Colors.grey, fontSize: 14)),
-              Text('\$440',
+              Text('\$$_mda',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -284,7 +210,7 @@ class _Info extends StatelessWidget {
             children: [
               Text('Sub Total',
                   style: TextStyle(color: Colors.grey, fontSize: 14)),
-              Text('\$510',
+              Text('\$${_mda+70}',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -321,120 +247,3 @@ class _Info extends StatelessWidget {
   }
 }
 
-/*class _CartItem extends StatefulWidget {
-  final String name;
-  final String image;
-  final int id;
-  const _CartItem(
-      {Key? key, required this.name, required this.image, required this.id})
-      : super(key: key);
-
-  @override
-  __CartItemState createState() => __CartItemState();
-}
-
-class __CartItemState extends State<_CartItem> {
-  void _delete(int id) async {
-    var box = await Hive.openBox('tokenBox');
-    var token = box.get('token');
-    if (token != null) {
-      await ApiClient().deleteItemCart(token: token, id: id);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
-        margin: EdgeInsets.fromLTRB(16, 8, 16, 8),
-        child: Container(
-          margin: EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 8),
-                    width: 120,
-                    height: 126,
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        image: DecorationImage(
-                            image: NetworkImage(widget.image),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.name),
-                        Text(
-                          'Price: \$150',
-                          style: TextStyle(color: Colors.grey, fontSize: 13),
-                        ),
-                        Text('Size: Large',
-                            style: TextStyle(color: Colors.grey, fontSize: 13)),
-                        Text('Color: Black',
-                            style: TextStyle(color: Colors.grey, fontSize: 13)),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 16),
-                              alignment: Alignment.center,
-                              height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Icon(
-                                Icons.remove,
-                                size: 20,
-                              ),
-                            ),
-                            Text('1'),
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              alignment: Alignment.center,
-                              height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              InkWell(
-                onTap: () {
-                  print('mda');
-                  _delete(widget.id);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red[100],
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  margin: EdgeInsets.only(top: 4),
-                  child: Icon(Icons.delete_outline_outlined),
-                ),
-              )
-            ],
-          ),
-        ));
-  }
-}*/

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wanna_shop/pages/Cart/cart.dart';
 import 'package:flutter_wanna_shop/pages/account/account.dart';
 import 'package:flutter_wanna_shop/pages/favorites/favorites.dart';
-import 'package:flutter_wanna_shop/widgets/products/products_cart.dart';
 import 'package:flutter_wanna_shop/pages/home/home.dart';
 import 'package:flutter_wanna_shop/widgets/navigations/side_bar.dart';
 import 'package:flutter_wanna_shop/widgets/navigations/top_bar.dart';
@@ -17,7 +17,7 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    ProductsCart(),
+    Cart(),
     FavoritesPage(),
     AccountPage()
   ];
