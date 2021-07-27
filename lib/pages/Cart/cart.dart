@@ -11,7 +11,7 @@ class Cart extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => CartProvider())],
       child: Scaffold(
-      backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[200],
         body: _CartItem(),
       ),
     );
@@ -28,36 +28,39 @@ class _CartItem extends StatefulWidget {
 class __CartItemState extends State<_CartItem> {
   @override
   Widget build(BuildContext context) {
-    return context.watch<CartProvider>().isLoading ?
-    Center(child: CircularProgressIndicator())
-        :
-    Column(children: [
-      Expanded(child: SingleChildScrollView(
-    physics: BouncingScrollPhysics(),
-        child:
-        ListView.builder(
-            physics: BouncingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: context.watch<CartProvider>().products.length,
-            itemBuilder: (BuildContext context, int index){
-              var _currentProduct = context.watch<CartProvider>().products[index];
-              var _currentImage = [];
-              context
-                  .watch<CartProvider>()
-                  .products[index]
-                  .image
-                  .map((e) {
-                if (e.indexOf('01') != -1) _currentImage.add(e);
-              }).toList();
-          return _ProductDescription(
-              index: index,
-              id: _currentProduct.id,
-              name: _currentProduct.name,
-              price: _currentProduct.price,
-              image: _currentImage[0]);
-        }),)),
-      _Info()
-    ],);
+    return context.watch<CartProvider>().isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Column(
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: context.watch<CartProvider>().products.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var _currentProduct =
+                          context.watch<CartProvider>().products[index];
+                      var _currentImage = [];
+                      context
+                          .watch<CartProvider>()
+                          .products[index]
+                          .image
+                          .map((e) {
+                        if (e.indexOf('01') != -1) _currentImage.add(e);
+                      }).toList();
+                      return _ProductDescription(
+                          index: index,
+                          id: _currentProduct.id,
+                          name: _currentProduct.name,
+                          price: _currentProduct.price,
+                          image: _currentImage[0]);
+                    }),
+              )),
+              _Info()
+            ],
+          );
   }
 }
 
@@ -67,13 +70,14 @@ class _ProductDescription extends StatelessWidget {
   final String name;
   final double price;
   final String image;
-  const _ProductDescription({Key? key,
-    required this.index,
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.image
-  }) : super(key: key);
+  const _ProductDescription(
+      {Key? key,
+      required this.index,
+      required this.id,
+      required this.name,
+      required this.price,
+      required this.image})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +129,8 @@ class _ProductDescription extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  context.read<CartProvider>().deleteProduct(id,
-                      context.read<CartProvider>().products[index]
-                  );
+                  context.read<CartProvider>().deleteProduct(
+                      id, context.read<CartProvider>().products[index]);
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -149,9 +152,9 @@ class _Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _mda = 0.0;
-    context.watch<CartProvider>().products.map((e) => {
-      _mda = _mda + e.price
+    var _totalPrice = 0.0;
+    context.watch<CartProvider>().products.forEach((element) {
+      _totalPrice = _totalPrice + element.price;
     });
     return Container(
       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -166,7 +169,7 @@ class _Info extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Total', style: TextStyle(color: Colors.grey, fontSize: 14)),
-              Text('\$$_mda',
+              Text('\$$_totalPrice',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -210,7 +213,7 @@ class _Info extends StatelessWidget {
             children: [
               Text('Sub Total',
                   style: TextStyle(color: Colors.grey, fontSize: 14)),
-              Text('\$${_mda+70}',
+              Text('\$${_totalPrice + 70}',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -246,4 +249,3 @@ class _Info extends StatelessWidget {
     );
   }
 }
-
